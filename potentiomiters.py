@@ -6,10 +6,15 @@ from imu import MPU6050
 from time import sleep
 from machine import Pin, I2C,PWM,ADC
 from  lcd1602 import LCD
-
+#initialize the lcd
+lcd=LCD()
 #initialize servo
 servo= PWM(Pin(16))
 servo.freq(50)
+
+servo.duty_u16(8191)
+sleep(1)
+servo.duty_u16(1689)
 
 #initialize the  led pins
 blue = Pin(3,Pin.OUT)
@@ -31,6 +36,10 @@ sleep(1)
 i2c = I2C(0, sda=Pin(0), scl=Pin(1), freq=400000)
 imu = MPU6050(i2c)
 
+
+
+lcd.clear()
+
 while True:
     #calibrate the potentiometers
         #led potentiometer
@@ -47,21 +56,25 @@ while True:
         green.value(0)
         red.value(0)
         white.value(0)
+        lcd.write(0,0, "blue is  on"+ "   ")
     elif myvalue >25 and myvalue <=50:
         blue.value(0)
         green.value(1)
         red.value(0)
         white.value(0)
+        lcd.write(0,0, "green is  on"+ "   ")
     elif myvalue >50 and myvalue <=75:
         blue.value(0)
         green.value(0)
         red.value(1)
         white.value(0)
+        lcd.write(0,0, "red is  on"+ "   ")
     elif myvalue >75 and myvalue <=100:
         blue.value(0)
         green.value(0)
         red.value(0)
         white.value(1)
+        lcd.write(0,0, "white is  on"+ "   ")
         
     LED.toggle()  #turns  the led on board on and off 
     
